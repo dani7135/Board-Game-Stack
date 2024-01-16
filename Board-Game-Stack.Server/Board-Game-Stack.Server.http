@@ -1,0 +1,6 @@
+@Board_Game_Stack.Server_HostAddress = http://localhost:5052
+
+GET {{Board_Game_Stack.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
