@@ -22,7 +22,7 @@ public class BoardGameGeekService
 public class BoardGameInfo
 {
     // Define the properties you want to extract from the API response
-    public int Id { get; set; }
-    public string Name { get; set; }
+    public int? Id { get; set; }
+    public string? Name { get; set; }
     // Add other properties as needed
 }

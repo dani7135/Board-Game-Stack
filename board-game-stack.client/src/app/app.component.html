@@ -1,4 +1,4 @@
-﻿<h1 id="tableLabel">Weather forecast</h1>
+<h1 id="tableLabel">Weather forecast</h1>
 
 <p>This component demonstrates fetching data from the server.</p>
 
@@ -15,9 +15,9 @@
     </thead>
     <tbody>
         <tr *ngFor="let forecast of forecasts">
-            <td>{{ forecast.date }}</td>
-            <td>{{ forecast.temperatureC }}</td>
-            <td>{{ forecast.temperatureF }}</td>
+          <td>{{ forecast.title }}</td>
+          <td>{{ forecast.playingTime }}</td>
+          <td>{{ forecast.yearpublished }}</td>
             <td>{{ forecast.summary }}</td>
         </tr>
     </tbody>
