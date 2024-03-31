@@ -1,5 +1,6 @@
 ﻿using System.Net.Http;
 using System.Threading.Tasks;
+using Board_Game_Stack.Server.Models;
 using Newtonsoft.Json;
 
 public class BoardGameGeekService
@@ -12,17 +13,11 @@ public class BoardGameGeekService
         _httpClient.BaseAddress = new System.Uri("https://boardgamegeek.com/xmlapi2/");
     }
 
-    public async Task<BoardGameInfo> GetBoardGameInfo(int gameId)
+    public async Task<Game> GetBoardGameInfo(int gameId)
     {
         var response = await _httpClient.GetStringAsync($"thing?id={gameId}");
-        return JsonConvert.DeserializeObject<BoardGameInfo>(response);
+        return JsonConvert.DeserializeObject<Game>(response);
     }
 }
 
-public class BoardGameInfo
-{
-    // Define the properties you want to extract from the API response
-    public int? Id { get; set; }
-    public string? Name { get; set; }
-    // Add other properties as needed
-}
+
