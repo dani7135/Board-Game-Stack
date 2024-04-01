@@ -1,40 +1,31 @@
 ﻿using Board_Game_Stack.Server.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
+using System.Xml.Linq;
 
-namespace Board_Game_Stack.Server.Controllers
+[ApiController]
+[Route("[controller]")]
+public class BoardGameController : ControllerBase
 {
-    [ApiController]
-    [Route("[controller]")]
-    public class BoardGameController : ControllerBase
+    private readonly BoardGameGeekService _boardGameGeekService;
+
+    public BoardGameController(BoardGameGeekService boardGameGeekService)
     {
-        private static readonly string[] Summaries = new[]
-        {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
+        _boardGameGeekService = boardGameGeekService;
+    }
 
-        private readonly ILogger<BoardGameController> _logger;
-
-        public BoardGameController(ILogger<BoardGameController> logger)
+    [HttpGet("{thingType}/{thingId}")]
+    public async Task<ActionResult<XDocument>> GetThingInfo(string thingType, int thingId)
+    {
+        try
         {
-            _logger = (ILogger<BoardGameController>?)logger;
+            var thingInfo = await _boardGameGeekService.GetThingInfoAsync(thingType, thingId);
+            return Ok(thingInfo);
         }
-
-        [HttpGet(Name = "GetBoardGame")]
-        public IEnumerable<Game> Get()
+        catch (Exception ex)
         {
-            var random = new Random();
-
-            var games = Enumerable.Range(1, 5).Select(index => new Game
-            {
-                Title = $"Game {index}",
-                PlayingTimer = random.Next(30, 121), // Random playing time between 30 and 120 minutes
-                YearPublished = $"{DateTime.Now.Year - index}",
-                Summary = $"Summary for Game {index}"
-            }).ToArray();
-
-            return games;
+            // Log the exception
+            return StatusCode(500, "Failed to retrieve thing information.");
         }
-
     }
 }
